@@ -27,7 +27,7 @@
     const NUM = 14;
 
     const path = (model, dataset, group, i) =>
-      `audiofiles/${model}/${dataset}/test_inference/${group}/${group}_${String(i).padStart(2, "0")}.wav`;
+      `audiofiles/${model}/${dataset}/test_inference/${group}/${group}_${String(i).padStart(2, "0")}.mp3`;
 
     function audioEl(src) {
       const a = document.createElement("audio");
