@@ -1,88 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>PRCE Audio Examples</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root { --gap: 40px; }
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: var(--gap); background: #fafafa; color: #222; }
-    h1 { margin-top: 0; }
-    h2 { margin-top: var(--gap); }
-    table { border-collapse: collapse; width: 100%; margin-bottom: var(--gap); background: #fff; }
-    th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: center; }
-    th { background: #f1f1f1; }
-    audio { width: 240px; }
-    .note { color: #555; margin: 6px 0 var(--gap); }
+    body {
+      font-family: sans-serif;
+      margin: 2em;
+    }
+    h2 {
+      margin-top: 2em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 2em;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+      text-align: center;
+    }
+    audio {
+      width: 150px;
+    }
   </style>
 </head>
 <body>
-  <h1>PRCE Audio Examples</h1>
-  <p class="note">Layout: <strong>Dataset</strong> | <strong>Target</strong> | <strong>HPN</strong> | <strong>PTR</strong></p>
 
-  <div id="tables"></div>
+<h1>PRCE Audio Examples</h1>
 
-  <script>
-    const DATASETS = ["A", "B", "C"];
-    const NUM = 14;
+<script>
+  // GitHub Pages base path (repo name)
+  const basePath = "/prce-examples/audiofiles";
 
-    const path = (model, dataset, group, i) =>
-      `audiofiles/${model}/${dataset}/test_inference/${group}/${group}_${String(i).padStart(2, "0")}.mp3`;
+  const datasets = ["A", "B", "C"];
+  const models = ["HPN_model", "PTR_model"];
+  const examples = 14;
 
-    function audioEl(src) {
-      const a = document.createElement("audio");
-      a.controls = true;
-      a.preload = "none";
-      a.src = src;
-      return a;
+  datasets.forEach(dataset => {
+    document.write(`<h2>Dataset ${dataset}</h2>`);
+    document.write("<table>");
+    document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
+
+    for (let i = 1; i <= examples; i++) {
+      const idx = String(i).padStart(2, "0");
+
+      const target = `${basePath}/HPN_model/${dataset}/test_inference/targets/targets_${idx}.mp3`;
+      const hpnPred = `${basePath}/HPN_model/${dataset}/test_inference/predictions/predictions_${idx}.mp3`;
+      const ptrPred = `${basePath}/PTR_model/${dataset}/test_inference/predictions/predictions_${idx}.mp3`;
+
+      document.write("<tr>");
+      document.write(`<td>${i}</td>`);
+      document.write(`<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`);
+      document.write("</tr>");
     }
 
-    function tableFor(dataset) {
-      const wrap = document.createElement("section");
-      const h = document.createElement("h2");
-      h.textContent = `Dataset ${dataset}`;
-      wrap.appendChild(h);
+    document.write("</table>");
+  });
+</script>
 
-      const table = document.createElement("table");
-      const head = document.createElement("tr");
-      ["Example", "Target", "HPN", "PTR"].forEach(t => {
-        const th = document.createElement("th");
-        th.textContent = t;
-        head.appendChild(th);
-      });
-      table.appendChild(head);
-
-      for (let i = 1; i <= NUM; i++) {
-        const tr = document.createElement("tr");
-
-        const tdLabel = document.createElement("td");
-        tdLabel.textContent = `Example ${i}`;
-        tr.appendChild(tdLabel);
-
-        // Target from HPN folder
-        const tdTarget = document.createElement("td");
-        tdTarget.appendChild(audioEl(path("HPN_model", dataset, "targets", i)));
-        tr.appendChild(tdTarget);
-
-        // HPN prediction
-        const tdHPN = document.createElement("td");
-        tdHPN.appendChild(audioEl(path("HPN_model", dataset, "predictions", i)));
-        tr.appendChild(tdHPN);
-
-        // PTR prediction
-        const tdPTR = document.createElement("td");
-        tdPTR.appendChild(audioEl(path("PTR_model", dataset, "predictions", i)));
-        tr.appendChild(tdPTR);
-
-        table.appendChild(tr);
-      }
-
-      wrap.appendChild(table);
-      return wrap;
-    }
-
-    const container = document.getElementById("tables");
-    DATASETS.forEach(ds => container.appendChild(tableFor(ds)));
-  </script>
 </body>
 </html>
