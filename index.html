@@ -41,52 +41,65 @@
     "A": [2, 14, 20, 22, 37, 39, 43, 31]
   };
 
-  const datasets = ["C", "B", "A"]; // Changed order to C, B, A
-  const models = ["HPN", "PTR"];
+  const datasets = ["C", "B", "A"];
 
-  function createTable(title, datasets, pathType) {
-    document.write(`<h2>${title}</h2>`);
+  // Best Predictions
+  document.write(`<h2>Best Predictions</h2>`);
 
-    datasets.forEach(dataset => {
-      document.write(`<h3>Dataset ${dataset}</h3>`);
-      document.write("<table>");
-      document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
+  datasets.forEach(dataset => {
+    document.write(`<h3>Dataset ${dataset}</h3>`);
+    document.write("<table>");
+    document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
 
-      const sequence = sequences[dataset];
+    const sequence = sequences[dataset];
 
-      for (let i = 0; i < sequence.length; i++) {
-        const seqNum = String(sequence[i]).padStart(2, "0");
-        const rowNum = i + 1; // Sequential numbering 1-8
+    for (let i = 0; i < sequence.length; i++) {
+      const seqNum = String(sequence[i]).padStart(2, "0");
+      const rowNum = i + 1;
 
-        let targetPath, hpnPredPath, ptrPredPath;
+      const target = `${basePath}/HPN/${dataset}/test_inference/targets/targets_${seqNum}.mp3`;
+      const hpnPred = `${basePath}/HPN/${dataset}/test_inference/predictions/predictions_${seqNum}.mp3`;
+      const ptrPred = `${basePath}/PTR/${dataset}/test_inference/predictions/predictions_${seqNum}.mp3`;
 
-        if (pathType === "best") {
-          targetPath = `${basePath}/HPN/${dataset}/test_inference/targets/targets_${seqNum}.mp3`;
-          hpnPredPath = `${basePath}/HPN/${dataset}/test_inference/predictions/predictions_${seqNum}.mp3`;
-          ptrPredPath = `${basePath}/PTR/${dataset}/test_inference/predictions/predictions_${seqNum}.mp3`;
-        } else { // first
-          targetPath = `${basePath}/HPN/${dataset}/epoch_001/targets/targets_${seqNum}.mp3`;
-          hpnPredPath = `${basePath}/HPN/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
-          ptrPredPath = `${basePath}/PTR/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
-        }
+      document.write("<tr>");
+      document.write(`<td>${rowNum}</td>`);
+      document.write(`<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`);
+      document.write("</tr>");
+    }
 
-        document.write("<tr>");
-        document.write(`<td>${rowNum}</td>`);
-        document.write(`<td><audio controls><source src="${targetPath}" type="audio/mpeg"></audio></td>`);
-        document.write(`<td><audio controls><source src="${hpnPredPath}" type="audio/mpeg"></audio></td>`);
-        document.write(`<td><audio controls><source src="${ptrPredPath}" type="audio/mpeg"></audio></td>`);
-        document.write("</tr>");
-      }
+    document.write("</table>");
+  });
 
-      document.write("</table>");
-    });
-  }
+  // First Predictions
+  document.write(`<h2>First Predictions</h2>`);
 
-  // Create Best Predictions tables
-  createTable("Best Predictions", datasets, "best");
+  datasets.forEach(dataset => {
+    document.write(`<h3>Dataset ${dataset}</h3>`);
+    document.write("<table>");
+    document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
 
-  // Create First Predictions tables
-  createTable("First Predictions", datasets, "first");
+    const sequence = sequences[dataset];
+
+    for (let i = 0; i < sequence.length; i++) {
+      const seqNum = String(sequence[i]).padStart(2, "0");
+      const rowNum = i + 1;
+
+      const target = `${basePath}/HPN/${dataset}/epoch_001/targets/targets_${seqNum}.mp3`;
+      const hpnPred = `${basePath}/HPN/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
+      const ptrPred = `${basePath}/PTR/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
+
+      document.write("<tr>");
+      document.write(`<td>${rowNum}</td>`);
+      document.write(`<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`);
+      document.write(`<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`);
+      document.write("</tr>");
+    }
+
+    document.write("</table>");
+  });
 </script>
 
 </body>
