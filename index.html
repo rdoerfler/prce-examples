@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PRCE Audio Examples</title>
+  <title>PRCE Audio Examples - (Headphones recommended)</title>
   <style>
     body { font-family: sans-serif; margin: 2em; }
     h2 { margin-top: 2em; }
@@ -18,16 +18,20 @@
 <script>
   const basePath = "/prce-examples/audiofiles";
 
+  // Order of datasets
   const datasetOrder = ["C", "B", "A"];
+
+  // Sequence indices for each set
   const sequences = {
     "C": [40, 56, 1, 3, 11, 13, 18, 30],
     "B": [46, 56, 5, 7, 13, 23, 29, 34],
     "A": [2, 14, 20, 22, 37, 39, 43, 31]
   };
 
-  function generateRows(dataset, exampleNumbers, targetPath, hpnPath, ptrPath) {
+  // Generate table rows for a dataset
+  function generateRows(dataset, seq, targetPath, hpnPath, ptrPath) {
     let rows = "";
-    exampleNumbers.forEach((fileIdx, rowIdx) => {
+    seq.forEach((fileIdx, rowIdx) => {
       const idx = String(fileIdx).padStart(2, "0");
 
       const target = `${basePath}/${targetPath.replace("{dataset}", dataset)}/targets_${idx}.mp3`;
@@ -44,21 +48,23 @@
     return rows;
   }
 
+  // Table sections
   const tableSections = [
     {
       title: "Best Predictions",
-      targetPath: "HPN/{dataset}/test_inference/targets",
-      hpnPath: "HPN/{dataset}/test_inference",
-      ptrPath: "PTR/{dataset}/test_inference"
+      targetPath: "HPN_model/{dataset}/test_inference/targets",
+      hpnPath: "HPN_model/{dataset}/test_inference",
+      ptrPath: "PTR_model/{dataset}/test_inference"
     },
     {
       title: "First Predictions",
-      targetPath: "HPN/{dataset}/epoch_001/targets",
+      targetPath: "HPN_model/{dataset}/epoch_001/targets",
       hpnPath: "Model/{dataset}/epoch_001/predictions",
       ptrPath: "Model/{dataset}/epoch_001/predictions"
     }
   ];
 
+  // Render tables
   tableSections.forEach(section => {
     document.write(`<h2>${section.title}</h2>`);
     datasetOrder.forEach(dataset => {
