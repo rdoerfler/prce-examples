@@ -8,7 +8,7 @@ Please consider listening with headphones.
 
 ## Overview
 
-This repository contains audio examples comparing Target sounds with HPN and PTR variants of the Procedural Engines Model (PRCE) across three datasets (C, B, A). These represent the first three datasets from the Procedural Engine Sounds Dataset used for training.
+This repository contains audio examples comparing Target sounds with HPN and PTR variants of the Procedural Engines Model (PRCE) across three datasets (C, B, A) from the Procedural Engine Sounds Dataset [1]. The datasets are presented in order of decreasing complexity to facilitate comparative assessment.
 
 The main model development and research can be found at: https://github.com/rdoerfler/prce-model
 
@@ -24,7 +24,12 @@ The examples include:
 
 All audio examples represent unseen data, ensuring unbiased model evaluation. The distinct sonic characteristics of each synthesizer architecture become particularly audible in the contrast between PTR's pulse-train resonator nature and HPN's smoother, more continuous approach.
 
-## Dataset Reference
+## References
+
+[1] Doerfler, R. (2025). Procedural Engine Sounds Dataset (Version 1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.16883336
+
+<details>
+<summary>BibTeX</summary>
 
 ```bibtex
 @dataset{doerfler_2025_procedural_engine_sounds,
@@ -39,6 +44,8 @@ All audio examples represent unseen data, ensuring unbiased model evaluation. Th
 }
 ```
 
+</details>
+
 ## Model Performance
 
 Best validation losses (lower is better):
@@ -48,13 +55,15 @@ Best validation losses (lower is better):
 | A       | 0.107        | 1.781    | 0.944     | **0.090**    | **1.649** | **0.872** |
 | B       | 0.059        | 1.824    | 0.943     | **0.055**    | **1.754** | **0.907** |
 | C       | 0.166        | 2.093    | 1.132     | **0.117**    | **2.017** | **1.069** |
-| Mean    | 0.111        | 1.899    | 1.006     | **0.088**    | **1.807** | **0.949** |
+| Mean    | 0.111        | 1.899    | 1.006     | 0.088        | 1.807     | 0.949     |
 
 PTR models consistently outperform HPN across all datasets and loss components.
 
 ## Repository Structure
 
 ```
+index.html
+README.md
 audiofiles/
 ├─ HPN/
 │  ├─ A/
