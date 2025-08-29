@@ -3,3 +3,4 @@
 .venv
 __pycache__
 audiofiles/.DS_Store
+audiofiles_raw/
