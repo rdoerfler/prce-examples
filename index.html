@@ -2,28 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>PRCE Audio Examples - (Headphones recommended)</title>
+  <title>PRCE Audio Examples</title>
   <style>
-    body {
-      font-family: sans-serif;
-      margin: 2em;
-    }
-    h2 {
-      margin-top: 2em;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-bottom: 2em;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 0.5em;
-      text-align: center;
-    }
-    audio {
-      width: 150px;
-    }
+    body { font-family: sans-serif; margin: 2em; }
+    h2 { margin-top: 2em; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 2em; }
+    th, td { border: 1px solid #ccc; padding: 0.5em; text-align: center; }
+    audio { width: 150px; }
   </style>
 </head>
 <body>
@@ -33,48 +18,44 @@
 <script>
   const basePath = "/prce-examples/audiofiles";
 
-  // Dataset order for best & first predictions
   const datasetOrder = ["C", "B", "A"];
-
-  // Row sequences for each set
   const sequences = {
     "C": [40, 56, 1, 3, 11, 13, 18, 30],
     "B": [46, 56, 5, 7, 13, 23, 29, 34],
     "A": [2, 14, 20, 22, 37, 39, 43, 31]
   };
 
-  // Function to generate table rows
   function generateRows(dataset, exampleNumbers, targetPath, hpnPath, ptrPath) {
     let rows = "";
-    exampleNumbers.forEach(i => {
-      const idx = String(i).padStart(2, "0");
+    exampleNumbers.forEach((fileIdx, rowIdx) => {
+      const idx = String(fileIdx).padStart(2, "0");
+
       const target = `${basePath}/${targetPath.replace("{dataset}", dataset)}/targets_${idx}.mp3`;
       const hpnPred = `${basePath}/${hpnPath.replace("{dataset}", dataset)}/predictions_${idx}.mp3`;
       const ptrPred = `${basePath}/${ptrPath.replace("{dataset}", dataset)}/predictions_${idx}.mp3`;
 
       rows += "<tr>";
-      rows += `<td>${i}</td>`;
-      rows += `<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`;
-      rows += `<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`;
-      rows += `<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`;
+      rows += `<td>${rowIdx + 1}</td>`; // Row numbers 1-8
+      rows += `<td><audio controls preload="none"><source src="${target}" type="audio/mpeg"></audio></td>`;
+      rows += `<td><audio controls preload="none"><source src="${hpnPred}" type="audio/mpeg"></audio></td>`;
+      rows += `<td><audio controls preload="none"><source src="${ptrPred}" type="audio/mpeg"></audio></td>`;
       rows += "</tr>";
     });
     return rows;
   }
 
-  // Table sections
   const tableSections = [
     {
       title: "Best Predictions",
-      targetPath: "HPN/set/{dataset}/test_inference/targets",
-      hpnPath: "HPN/set/{dataset}/test_inference",
-      ptrPath: "PTR/set/{dataset}/test_inference"
+      targetPath: "HPN/{dataset}/test_inference/targets",
+      hpnPath: "HPN/{dataset}/test_inference",
+      ptrPath: "PTR/{dataset}/test_inference"
     },
     {
       title: "First Predictions",
-      targetPath: "HPN/set/{dataset}/epoch_001/targets",
-      hpnPath: "Model/set/{dataset}/epoch_001/predictions",
-      ptrPath: "Model/set/{dataset}/epoch_001/predictions"
+      targetPath: "HPN/{dataset}/epoch_001/targets",
+      hpnPath: "Model/{dataset}/epoch_001/predictions",
+      ptrPath: "Model/{dataset}/epoch_001/predictions"
     }
   ];
 
