@@ -73,32 +73,30 @@
   });
 
   // First Predictions
-  document.write(`<h2>First Predictions</h2>`);
+document.write(`<h2>First Predictions</h2>`);
 
-  datasets.forEach(dataset => {
-    document.write(`<h3>Dataset ${dataset}</h3>`);
-    document.write("<table>");
-    document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
+datasets.forEach(dataset => {
+  document.write(`<h3>Dataset ${dataset}</h3>`);
+  document.write("<table>");
+  document.write("<tr><th>Example</th><th>Target</th><th>HPN</th><th>PTR</th></tr>");
 
-    const sequence = sequences[dataset];
+  for (let i = 1; i <= 8; i++) {
+    const seqNum = String(i).padStart(2, "0");
+    const rowNum = i;
 
-    for (let i = 0; i < sequence.length; i++) {
-      const seqNum = String(sequence[i]).padStart(2, "0");
-      const rowNum = i + 1;
+    const target = `${basePath}/HPN/${dataset}/epoch_001/targets/targets_${seqNum}.mp3`;
+    const hpnPred = `${basePath}/HPN/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
+    const ptrPred = `${basePath}/PTR/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
 
-      const target = `${basePath}/HPN/${dataset}/epoch_001/targets/targets_${seqNum}.mp3`;
-      const hpnPred = `${basePath}/HPN/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
-      const ptrPred = `${basePath}/PTR/${dataset}/epoch_001/predictions/predictions_${seqNum}.mp3`;
+    document.write("<tr>");
+    document.write(`<td>${rowNum}</td>`);
+    document.write(`<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`);
+    document.write(`<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`);
+    document.write(`<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`);
+    document.write("</tr>");
+  }
 
-      document.write("<tr>");
-      document.write(`<td>${rowNum}</td>`);
-      document.write(`<td><audio controls><source src="${target}" type="audio/mpeg"></audio></td>`);
-      document.write(`<td><audio controls><source src="${hpnPred}" type="audio/mpeg"></audio></td>`);
-      document.write(`<td><audio controls><source src="${ptrPred}" type="audio/mpeg"></audio></td>`);
-      document.write("</tr>");
-    }
-
-    document.write("</table>");
+  document.write("</table>");
   });
 </script>
 
